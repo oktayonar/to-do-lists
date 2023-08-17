@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <style>
+      .dropdown-toggle::after {
+        display: none;
+      }
+      .list-group-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">Todo App</div>
+            <div class="card-body">
+              <form>
+                <div class="input-group">
+                  <input type="text" id="txtTaskName" class="form-control" />
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    id="btnAddNewTask"
+                  >
+                    Ekle
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="card mt-3">
+            <div class="card-header">
+              <div class="btn btn btn-danger btn-sm float-end" id="taskClear">
+                Temizle
+              </div>
+            </div>
+            <ul class="list-group list-group-flush" id="task-list"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let sonuc;
+
+      let ul = document.getElementById("task-list");
+
+      let count = ul.children.length;
+
+      // let li = `<li class="list-group-item">
+      //           <div class="form-check">
+      //             <input type="checkbox" class="form-check-input" id="${
+      //               count + 1
+      //             }" />
+      //             <label for="${count + 1}" class="form-check-label">Görev ${
+      //   count + 1
+      // } </label>
+      //           </div>
+      //         </li>
+      // `;
+
+      // ul.insertAdjacentHTML("beforeend", li);
+
+      // let gorevLıstesı = ["Görev 1", "Görev 2", "Görev 3"];
+
+      // for (let i in gorevLıstesı) {
+      //   let li = `<li class="list-group-item">
+      //           <div class="form-check">
+      //             <input type="checkbox" class="form-check-input" id="${
+      //               i + 1
+      //             }" />
+      //             <label for="${i + 1}" class="form-check-label"> ${
+      //     gorevLıstesı[i]
+      //   }</label>
+      //           </div>
+      //   </li>
+      // `;
+
+      //   ul.insertAdjacentHTML("beforeend", li);
+      // }
+
+      let gorevLıstesı2 = [
+        { id: 1, gorevAdi: "Görev 1" },
+        { id: 2, gorevAdi: "Görev 2" },
+        { id: 3, gorevAdi: "Görev 3" },
+        { id: 4, gorevAdi: "Görev 4" },
+      ];
+      displayTask();
+      function displayTask() {
+        let ul = document.querySelector("#task-list");
+        ul.innerHTML = "";
+        for (let gorev of gorevLıstesı2) {
+          let li = `
+              <li class="list-group-item">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="${gorev.id}" />
+                  <label for="${gorev.id}" class="form-check-label">${gorev.gorevAdi}</label>
+                </div>
+                <div class="dropdown">
+                    <button
+                      class="btn btn-link dropdown-toggle"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                    >
+                      <i class="fa-solid fa-ellipsis"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a onclick="deleteTask(${gorev.id})" href="#" class="dropdown-item"
+                          ><i class="fa-solid fa-trash"></i> Sil</a
+                        >
+                      </li>
+                      <li>
+                        <a href="#" class="dropdown-item"
+                          ><i class="fa-solid fa-pen"></i> Düzenle</a
+                        >
+                      </li>
+                    </ul>
+                </div>
+              </li>
+              
+            `;
+          ul.insertAdjacentHTML("beforeend", li);
+        }
+      }
+
+      document
+        .querySelector("#btnAddNewTask")
+        .addEventListener("click", newTask);
+      document
+        .querySelector("#btnAddNewTask")
+        .addEventListener("keypress", function () {
+          if (event.key == "Enter") {
+            document.querySelector("#btnAddNewTask").click();
+          }
+        });
+      function newTask(event) {
+        let taskInput = document.querySelector("#txtTaskName");
+        let li = `
+              <li class="list-group-item">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="${
+                    gorevLıstesı2.length + 1
+                  }" />
+                  <label for="${
+                    gorevLıstesı2.length + 1
+                  }" class="form-check-label">${taskInput.value}</label>
+                </div>
+              </li>
+            `;
+        ul.insertAdjacentHTML("beforeend", li);
+
+        if (taskInput.value == "") {
+          alert("görev girmelisiniz");
+        } else {
+          gorevLıstesı2.push({
+            id: gorevLıstesı2.length + 1,
+            gorevAdi: taskInput.value,
+          });
+          taskInput.value = "";
+        }
+
+        displayTask();
+
+        event.preventDefault();
+      }
+      function deleteTask(id) {
+        let deleteId;
+        for (let i in gorevLıstesı2) {
+          if (gorevLıstesı2[i].id == id) {
+            deleteId = i;
+          }
+        }
+
+        // deleteId = gorevLıstesı2.findIndex(function (gorev) {
+        //   return gorev.id == id;
+        // });
+
+        // deleteId = gorevLıstesı2.findIndex((gorev) => gorev.id == id);
+
+        gorevLıstesı2.splice(deleteId, 1);
+        displayTask();
+      }
+    </script>
+  </body>
+</html>

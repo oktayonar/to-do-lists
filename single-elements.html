@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="card-header">
+      <h3 class="card-title" id="title">Todo App</h3>
+    </div>
+    <ul id="task-list">
+      <li>görev 1</li>
+      <li>görev 2</li>
+      <li>görev 3</li>
+    </ul>
+
+    <script>
+      let sonuc;
+
+      sonuc = document.getElementById("title");
+      sonuc = document.getElementById("title").className;
+      sonuc = document.getElementById("title").classList;
+
+      document.getElementById("title").style.fontSize = "30px";
+      document.getElementById("title").style.color = "red";
+      //   document.getElementById("title").style.display = "none";
+
+      document.getElementById("title").innerText = "Todo App 2";
+      document.getElementById("title").innerHTML = "<p>Todo App</p>";
+
+      sonuc = document.querySelector(".card-header");
+
+      sonuc = document.querySelector("div");
+
+      sonuc = document.querySelector("li");
+      sonuc = document.querySelector("li:first-child");
+      sonuc = document.querySelector("li:last-child");
+      sonuc = document.querySelector("li:nth-child(2)");
+
+      console.log(sonuc);
+    </script>
+  </body>
+</html>
